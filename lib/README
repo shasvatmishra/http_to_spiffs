@@ -1,46 +1,12 @@
-
-This directory is intended for project specific (private) libraries.
-PlatformIO will compile them to static libraries and link into the executable file.
-
-The source code of each library should be placed in a separate directory
-("lib/your_library_name/[Code]").
-
-For example, see the structure of the following example libraries `Foo` and `Bar`:
-
-|--lib
-|  |
-|  |--Bar
-|  |  |--docs
-|  |  |--examples
-|  |  |--src
-|  |     |- Bar.c
-|  |     |- Bar.h
-|  |  |- library.json (optional. for custom build options, etc) https://docs.platformio.org/page/librarymanager/config.html
-|  |
-|  |--Foo
-|  |  |- Foo.c
-|  |  |- Foo.h
-|  |
-|  |- README --> THIS FILE
-|
-|- platformio.ini
-|--src
-   |- main.c
-
-Example contents of `src/main.c` using Foo and Bar:
-```
-#include <Foo.h>
-#include <Bar.h>
-
-int main (void)
-{
-  ...
-}
-
-```
-
-The PlatformIO Library Dependency Finder will find automatically dependent
-libraries by scanning project source files.
-
-More information about PlatformIO Library Dependency Finder
-- https://docs.platformio.org/page/librarymanager/ldf.html
+Design Choices
+The project prioritizes simplicity and brevity while maintaining core functionality. Key design decisions include:
+Compact Codebase: Reduced to 67 lines by minimizing logging, merging statements, and omitting extensive error handling. This enhances readability for small-scale projects while retaining essential operations.
+Wi-Fi Configuration: Uses a single wifi_setup() function with station mode (WIFI_MODE_STA) for straightforward network access. Error checking is omitted to reduce verbosity, assuming a stable environment for demonstration purposes.
+SPIFFS Integration: Configures SPIFFS with a single-line structure (esp_vfs_spiffs_conf_t) and auto-formatting enabled (format_if_mount_failed = 1) to simplify file system setup and ensure reliability without additional checks.
+HTTP Handling: Employs a streamlined http_handler() with minimal event processing (header, data, finish, error) to save lines. Logging is limited to critical output (speed), reducing overhead.
+Fixed Parameters: Hardcode values like BUFFER_SIZE (16KB) and the download URL to eliminate runtime configuration, balancing performance and memory usage for the ESP32’s constraints.
+No NVS Error Recovery: Skips detailed NVS initialization checks to shorten the main function, relying on a basic nvs_flash_init() call.
+Limitations
+Lacks robust error handling; failures may result in silent crashes.
+Minimal logging reduces debugging visibility.
+Assumes a reliable Wi-Fi connection and SPIFFS partition.
